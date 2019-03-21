@@ -1,0 +1,34 @@
+.button:hover {
+    -fx-background-color: #546e7a;
+}
+
+.button:pressed {
+    -fx-background-color: #455a64;
+    -fx-effect: innershadow(three-pass-box, #0000004d, 16px, 0px, 0px, 7px);
+}
+
+.button {
+    -fx-alignment: center;
+    -fx-background-color: #5b7784;
+    -fx-background-radius: 0px;
+    -fx-effect: innershadow(three-pass-box, #0000004d, 2px, 0px, 0px, 1px);
+    -fx-font-weight: NORMAL;
+    -fx-min-height: 5.76mm;
+    -fx-min-width: 14.08mm;
+    -fx-padding: 1.92mm;
+    -fx-text-fill: #ffffff;
+}
+
+.button:disabled {
+    -fx-background-color: #0000001f;
+    -fx-effect: null;
+    -fx-text-fill: #ffffff;
+}
+
+.root {
+    -fx-background-color: #333333;
+}
+
+TextFlow {
+    -fx-background-color: #2b2b2b;
+}
