@@ -85,7 +85,17 @@ public class DetectionGUI extends Application implements Initializable {
     @FXML private Label txtTagQuaEn;
     @FXML private Label txtSynEn;
     @FXML private Label txtOverall;
-        
+    
+    /*
+    * @author rtsketo
+    */
+    
+    public static void main(String[] args) {
+        Locale.setDefault(new Locale("el", "GR"));
+        System.setProperty("file.encoding", "UTF-8");
+        launch(args);
+    }
+    
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass()
@@ -115,11 +125,6 @@ public class DetectionGUI extends Application implements Initializable {
         });
     }
 
-    public static void main(String[] args) {
-        Locale.setDefault(new Locale("el", "GR"));
-        System.setProperty("file.encoding", "UTF-8");
-        launch(args);
-    }
     public void print(String text) {
         Platform.runLater(()->{
                 Text line = new Text(text);
