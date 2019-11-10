@@ -39,7 +39,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Pair;
 
 public class DetectionGUI extends Application implements Initializable {
-    final int numMeth = 11;
+    private final int numMeth = 11;
     
     private CompletableFuture<Pair<String,Double>[]> results;
     private Pair<String,Double>[] reason = new Pair[numMeth];
@@ -85,17 +85,7 @@ public class DetectionGUI extends Application implements Initializable {
     @FXML private Label txtTagQuaEn;
     @FXML private Label txtSynEn;
     @FXML private Label txtOverall;
-    
-    /*
-    * @author rtsketo
-    */
-    
-    public static void main(String[] args) {
-        Locale.setDefault(new Locale("el", "GR"));
-        System.setProperty("file.encoding", "UTF-8");
-        launch(args);
-    }
-    
+        
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass()
@@ -139,7 +129,7 @@ public class DetectionGUI extends Application implements Initializable {
         });
     }
     
-    public void println(String text) {
+    void println(String text) {
         if (strlen < text.length())
             strlen = text.length();
         

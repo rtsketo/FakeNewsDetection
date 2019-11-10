@@ -1,0 +1,1638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="fakenewsdetection" default="all">
+  
+  
+  <property file="FakeNewsDetection.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.klib"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+    <include name="*.ane"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.12" value="${jdk.home.12}/bin"/>
+  <path id="jdk.classpath.12">
+    <fileset dir="${jdk.home.12}">
+      <include name="../jdk-12.0.2!/java.base"/>
+      <include name="../jdk-12.0.2!/java.compiler"/>
+      <include name="../jdk-12.0.2!/java.datatransfer"/>
+      <include name="../jdk-12.0.2!/java.desktop"/>
+      <include name="../jdk-12.0.2!/java.instrument"/>
+      <include name="../jdk-12.0.2!/java.logging"/>
+      <include name="../jdk-12.0.2!/java.management"/>
+      <include name="../jdk-12.0.2!/java.management.rmi"/>
+      <include name="../jdk-12.0.2!/java.naming"/>
+      <include name="../jdk-12.0.2!/java.net.http"/>
+      <include name="../jdk-12.0.2!/java.prefs"/>
+      <include name="../jdk-12.0.2!/java.rmi"/>
+      <include name="../jdk-12.0.2!/java.scripting"/>
+      <include name="../jdk-12.0.2!/java.se"/>
+      <include name="../jdk-12.0.2!/java.security.jgss"/>
+      <include name="../jdk-12.0.2!/java.security.sasl"/>
+      <include name="../jdk-12.0.2!/java.smartcardio"/>
+      <include name="../jdk-12.0.2!/java.sql"/>
+      <include name="../jdk-12.0.2!/java.sql.rowset"/>
+      <include name="../jdk-12.0.2!/java.transaction.xa"/>
+      <include name="../jdk-12.0.2!/java.xml"/>
+      <include name="../jdk-12.0.2!/java.xml.crypto"/>
+      <include name="../jdk-12.0.2!/jdk.accessibility"/>
+      <include name="../jdk-12.0.2!/jdk.aot"/>
+      <include name="../jdk-12.0.2!/jdk.attach"/>
+      <include name="../jdk-12.0.2!/jdk.charsets"/>
+      <include name="../jdk-12.0.2!/jdk.compiler"/>
+      <include name="../jdk-12.0.2!/jdk.crypto.cryptoki"/>
+      <include name="../jdk-12.0.2!/jdk.crypto.ec"/>
+      <include name="../jdk-12.0.2!/jdk.crypto.mscapi"/>
+      <include name="../jdk-12.0.2!/jdk.dynalink"/>
+      <include name="../jdk-12.0.2!/jdk.editpad"/>
+      <include name="../jdk-12.0.2!/jdk.hotspot.agent"/>
+      <include name="../jdk-12.0.2!/jdk.httpserver"/>
+      <include name="../jdk-12.0.2!/jdk.internal.ed"/>
+      <include name="../jdk-12.0.2!/jdk.internal.jvmstat"/>
+      <include name="../jdk-12.0.2!/jdk.internal.le"/>
+      <include name="../jdk-12.0.2!/jdk.internal.opt"/>
+      <include name="../jdk-12.0.2!/jdk.internal.vm.ci"/>
+      <include name="../jdk-12.0.2!/jdk.internal.vm.compiler"/>
+      <include name="../jdk-12.0.2!/jdk.internal.vm.compiler.management"/>
+      <include name="../jdk-12.0.2!/jdk.jartool"/>
+      <include name="../jdk-12.0.2!/jdk.javadoc"/>
+      <include name="../jdk-12.0.2!/jdk.jcmd"/>
+      <include name="../jdk-12.0.2!/jdk.jconsole"/>
+      <include name="../jdk-12.0.2!/jdk.jdeps"/>
+      <include name="../jdk-12.0.2!/jdk.jdi"/>
+      <include name="../jdk-12.0.2!/jdk.jdwp.agent"/>
+      <include name="../jdk-12.0.2!/jdk.jfr"/>
+      <include name="../jdk-12.0.2!/jdk.jlink"/>
+      <include name="../jdk-12.0.2!/jdk.jshell"/>
+      <include name="../jdk-12.0.2!/jdk.jsobject"/>
+      <include name="../jdk-12.0.2!/jdk.jstatd"/>
+      <include name="../jdk-12.0.2!/jdk.localedata"/>
+      <include name="../jdk-12.0.2!/jdk.management"/>
+      <include name="../jdk-12.0.2!/jdk.management.agent"/>
+      <include name="../jdk-12.0.2!/jdk.management.jfr"/>
+      <include name="../jdk-12.0.2!/jdk.naming.dns"/>
+      <include name="../jdk-12.0.2!/jdk.naming.rmi"/>
+      <include name="../jdk-12.0.2!/jdk.net"/>
+      <include name="../jdk-12.0.2!/jdk.pack"/>
+      <include name="../jdk-12.0.2!/jdk.rmic"/>
+      <include name="../jdk-12.0.2!/jdk.scripting.nashorn"/>
+      <include name="../jdk-12.0.2!/jdk.scripting.nashorn.shell"/>
+      <include name="../jdk-12.0.2!/jdk.sctp"/>
+      <include name="../jdk-12.0.2!/jdk.security.auth"/>
+      <include name="../jdk-12.0.2!/jdk.security.jgss"/>
+      <include name="../jdk-12.0.2!/jdk.unsupported"/>
+      <include name="../jdk-12.0.2!/jdk.unsupported.desktop"/>
+      <include name="../jdk-12.0.2!/jdk.xml.dom"/>
+      <include name="../jdk-12.0.2!/jdk.zipfs"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.12}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.12}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.12"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/biz.k11i/xgboost-predictor/0.3.0/e86f8498cb4491056d993b44a3065e5c0fb57161/xgboost-predictor-0.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.carrotsearch/hppc/0.7.2/710398361f2ae8fd594a133e3619045c16b24137/hppc-0.7.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.esotericsoftware.kryo/kryo/2.21/9a4e69cff8d225729656f7e97e40893b23bffef/kryo-2.21.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.esotericsoftware.minlog/minlog/1.2/59bfcd171d82f9981a5e242b9e840191f650e209/minlog-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.esotericsoftware.reflectasm/reflectasm/1.07/76f11c94a53ee975a0d9154b325c408b210155bd/reflectasm-1.07-shaded.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.9.0/7c10d545325e3a6e72e06381afe469fd40eb701/jackson-annotations-2.9.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.9.9/bfff5af9fb8347d26bbb7959cb9b4fe9a2b0ca5e/jackson-core-2.9.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.9.9/d6eb9817d9c7289a91f043ac5ee02a6b3cc86238/jackson-databind-2.9.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.github.lucene-gosen/lucene-gosen/6.2.1/e11f24a46a3a8b529da15085ed91e101ca3b7f2f/lucene-gosen-6.2.1-ipadic.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.google.code:cjftransform:1.0.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.google.code/cjftransform/1.0.1/c5b31eda953c2e974ad96d98588e20d0e8b5cb8d/cjftransform-1.0.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.google.guava:guava:21.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/21.0/3a3d111be1be1b745edfa7d91678a12d7ed38709/guava-21.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.googlecode.ictclas4j/ictclas4j/1.0.1/e73b6c8f5b7a8de2f0241ce6d35f6478d0254418/ictclas4j-1.0.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.hankcs/aho-corasick-double-array-trie/1.2.0/7b75748bad8e193cc048a7fb0c71605e300b2286/aho-corasick-double-array-trie-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.ibm.icu:icu4j:56.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/56.1/8dd6671f52165a0419e6de5e1016400875a90fa9/icu4j-56.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.intellij:annotations:12.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.intellij/annotations/12.0/bbcf6448f6d40abe506e2c83b70a3e8bfd2b4539/annotations-12.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.optimaize.languagedetector/language-detector/0.6/52fee1eaa101f8d3e30b7095e1b6e0054d514dde/language-detector-0.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.sun.istack/istack-commons-runtime/3.0.5/8052dc9920dfab5d50b8ca95c95a6ce4296a8f8b/istack-commons-runtime-3.0.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.sun.xml.fastinfoset/FastInfoset/1.2.13/98f56b9354e27bd2941cc5d461344e240ae51ae/FastInfoset-1.2.13.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.typesafe.akka/akka-actor_2.11/2.3.11/5a3da894879253c96950d8b9687ad72a1400bbf4/akka-actor_2.11-2.3.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.typesafe:config:1.2.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.2.1/f771f71fdae3df231bcd54d5ca2d57f0bf93f467/config-1.2.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_commons-logging:commons-logging:1.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/de.danielnaber/german-pos-dict/1.1/d399d9be1dc6e44a5eb5b962f9a10b14ea5e9e7f/german-pos-dict-1.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/de.danielnaber/jwordsplitter/4.4/77f35d7b04c8ac0a8e0c7830d22ede98b782c8e4/jwordsplitter-4.4.jar"/>
+  </path>
+  
+  <path id="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/edu.berkeley.nlp/berkeleylm/1.1.2/ab91b4e9e4157dd8b2e064bb2807e705b0ce7933/berkeleylm-1.1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/edu.washington.cs.knowitall/opennlp-chunk-models/1.5/8aaad30ce180b30d5a43dc7bc896e7a6cb09c973/opennlp-chunk-models-1.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/edu.washington.cs.knowitall/opennlp-postag-models/1.5/f6d1b602dd918a59809344a0d2d952970b2e0cbf/opennlp-postag-models-1.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/edu.washington.cs.knowitall/opennlp-tokenize-models/1.5/6dad86c15c48ea7e6588bbb00fcf34199574b0a3/opennlp-tokenize-models-1.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/edu.washington.cs.knowitall/openregex/1.1.1/4c2e7996d320f0694793e517aecf3955fc77f305/openregex-1.1.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/javax.activation/javax.activation-api/1.2.0/85262acf3ca9816f9537ca47d5adeabaead7cb16/javax.activation-api-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_javax.measure:unit-api:1.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/javax.measure/unit-api/1.0/6b960260278588d7ff02fe376e5aad39a9c7440b/unit-api-1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/javax.xml.bind/jaxb-api/2.3.0/99f802e0cb3e953ba3d6e698795c4aeb98d37c48/jaxb-api-2.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_junit:junit:4.12.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/ml.dmlc/xgboost4j/0.90/293f742e0858d0ee5a2b18a904f65d40fe02b98c/xgboost4j-0.90.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.arnx:jsonic:1.2.11.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/net.arnx/jsonic/1.2.11/d85dcd1c5469673b58ec78ceae8a675e2c730c66/jsonic-1.2.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.jafama:jafama:2.1.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/net.jafama/jafama/2.1.0/3f97009c7f9c18c05068a2c0e187fdcdc85f6354/jafama-2.1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/4.4.0/cb208278274bf12ebdb56c61bd7407e6f774d65a/jna-4.4.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.loomchild:segment:2.0.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/net.loomchild/segment/2.0.1/13134fce6e652c886da049623874aad2b22a8c1a/segment-2.0.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.commons:commons-csv:1.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-csv/1.6/22b3c2f901af973a8ec4f24e80c8c0c77a600b79/commons-csv-1.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.9/122c7cee69b53ed4a7681c03d4ee4c0e2765da5/commons-lang3-3.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.6.1/4a285ecdea96fd7b621091b334224c527ae420fb/commons-pool2-2.6.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.commons:commons-text:1.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.7/4d7d6dc210f80d0bff18645cc534a0c45324d0d6/commons-text-1.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-backward-codecs/5.5.4/a933f42e758c54c43083398127ea7342b54d8212/lucene-backward-codecs-5.5.4.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/5.5.4/ab9c77e75cf142aa6e284b310c8395617bd9b19b/lucene-core-5.5.4.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.apache.opennlp/opennlp-tools/1.9.1/8145429d82a4b811fdd3390557dbe6546b0153ad/opennlp-tools-1.9.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.carrot2/morfologik-fsa-builders/2.1.6/c92271aff3281f57c5fc62349d46281cd69c26a2/morfologik-fsa-builders-2.1.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.carrot2/morfologik-fsa/2.1.6/7975138d7b5945e7f7264c903b1a9e862f9d3369/morfologik-fsa-2.1.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.carrot2/morfologik-speller/2.1.6/6c861442683b734747e92f52076e5777d05c5833/morfologik-speller-2.1.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.carrot2/morfologik-stemming/2.1.6/eab99e52a3923983a68cb614b2b66657d3083b97/morfologik-stemming-2.1.6.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-core/2.3.0/b40bc6ae4bc14480204e143377ce6f75ebba5066/jaxb-core-2.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.0/c50f1a599ff0fcf3944e7467cf3cfae1374f4fd6/jaxb-runtime-2.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/txw2/2.3.0/eee383097bb1aeeda6227694bcb88f3082e634bf/txw2-2.3.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.ioperm/morphology-el/1.0.0/1e9a4c802d16998d5e95446fe527e1b9e5cae2a2/morphology-el-1.0.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.json:json:20190722.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.json/json/20190722/7bce7bacf0ab5e9f894d307a3de8b7f540064d5/json-20190722.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jsoup:jsoup:1.12.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.12.1/55819a28fc834c2f2bcf4dcdb278524dc3cf088f/jsoup-1.12.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.jvnet.staxex/stax-ex/1.7.8/377077e4441cc46be5efde9de63efdf790a59cd7/stax-ex-1.7.8.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/hunspell-native-libs/2.9/ea33d65db044214437b416d2017334d70642a1ee/hunspell-native-libs-2.9.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-all:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-all/4.7/b5a5108b040342f183313c492681b0dbcaecd767/language-all-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ast:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ast/4.7/86b425c0a065590f907ff4a6be6824d1787df01a/language-ast-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-be:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-be/4.7/2923f39dcecfe92d5333d2634946c9bcf4bbf506/language-be-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-br:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-br/4.7/3d22e7a50f27c37261d10d4ddb9888add8ecc9f/language-br-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ca:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ca/4.7/6fb47f3da391f0b30664b0ff3f7dce78748019/language-ca-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-da:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-da/4.7/6be96a3573d21808343504f12728ee1804e02850/language-da-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-de-DE-x-simple-language/4.7/5f647628b333245b0fcc8fedffde425276125ca5/language-de-DE-x-simple-language-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-de:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-de/4.7/233015a2a0cc9855aa7a4542e729254c433e8951/language-de-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-el:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-el/4.7/f26df95d2320285e3885084d9b9d2e1d688bf437/language-el-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-en:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-en/4.7/e23f9b983d6fe4e09c619dcbf514a9246f13c114/language-en-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-eo:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-eo/4.7/ef80bdfbc1b9eff33a595227c5a001f7dc16fdd/language-eo-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-es:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-es/4.7/29d5c331ccf68136a5286c0929d43d78bc02f802/language-es-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-fa:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-fa/4.7/682f5bc4e6d1cef45b1f9e9fdf3d165f549db491/language-fa-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-fr:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-fr/4.7/d26560ab0914e0bdb129fbec9f9f470e8a2c7369/language-fr-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-gl:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-gl/4.7/a0bf83d401352556e963399081ee7906e698f1a0/language-gl-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-it:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-it/4.7/4a5373ed3a7318d430ff89ec3f7412b7ce24c961/language-it-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ja:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ja/4.7/2e574adf31736cd0c4f37eb0362da1f76f3a2fc0/language-ja-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-km:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-km/4.7/8a448995436397c013e46b8898cb9d497412ff69/language-km-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-nl:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-nl/4.7/353286c85e5060d70683b663acb149c3befdb055/language-nl-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-pl:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-pl/4.7/496f845e99ca4b3ceb47183e35fb20bf2da42885/language-pl-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-pt:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-pt/4.7/f889a38f6bde18d9539ea5bec4df9bb72d1081f3/language-pt-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ro:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ro/4.7/4085de6af44bf3a79b064018c01e340fa6b49ea4/language-ro-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ru:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ru/4.7/e9ce9ebf7b8545c9308082485011966533bbb0e9/language-ru-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-sk:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-sk/4.7/595bb9255878fbbb69f4ad1ed999ed782b871c11/language-sk-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-sl:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-sl/4.7/e237b4ef890818b5d8d395f58ee9fdf82b79f1e8/language-sl-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-sv:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-sv/4.7/543eb27a34240264436eb4427e4a3858bf4c5139/language-sv-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-ta:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-ta/4.7/3ee75cd08b9132c055f75daa792a7d4ee719f1a5/language-ta-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-tl:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-tl/4.7/18e8693d45bd756fe6ecd76a057abd9ba0a4cdc8/language-tl-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-uk:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-uk/4.7/47e67a37b516383553a6626e36dec6c64bab0fa3/language-uk-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:language-zh:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/language-zh/4.7/8e218d7976574148eee03d784cf3053c9ec460cb/language-zh-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.languagetool:languagetool-core:4.7.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.languagetool/languagetool-core/4.7/4e5a548d066af53e55ecf6f9eb1d479ee41fb597/languagetool-core-4.7.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.objenesis:objenesis:1.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/1.2/bfcb0539a071a4c5a30690388903ac48c0667f2a/objenesis-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-base:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13/43c52e1d11b38514e9d2421ad98ca6a35de12b0/javafx-base-13.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-base:win:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13/6386f02a2b71d8b503c6ca3cd2d2dcb382ce86b4/javafx-base-13-win.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-controls:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13/6cd7169d2a729846c35fba9dc65af23a10ca253b/javafx-controls-13.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-controls:win:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13/7524fd4ab57de51637adb0e99f0220a1ae0ae4dd/javafx-controls-13-win.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/13/ee55786ffd820bb7c8dd43d127a54b1141639e29/javafx-fxml-13-win.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-graphics:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13/a9407212df2b75d557a509ec14a9e8e282494b4e/javafx-graphics-13.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13/bbcbc616702a086567585183efcb0ab8eb22a66b/javafx-graphics-13-win.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.ow2.asm:asm:4.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-parser-combinators_2.11/1.0.4/7369d653bcfa95d321994660477a4d7e81d7f490/scala-parser-combinators_2.11-1.0.4.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-xml_2.11/1.0.5/77ac9be4033768cf03cc04fbd1fc5e5711de2459/scala-xml_2.11-1.0.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.11.12/a1b5e58fd80cb1edc1413e904a346bfdb3a88333/scala-compiler-2.11.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.11.12/2bb23c13c527566d9828107ca4108be2a2c06f01/scala-reflect-2.11.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.softcatala/catalan-pos-dict/2.5/899951effc9b6a5925c97887ba65ffdf5da67e45/catalan-pos-dict-2.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/org.xerial/sqlite-jdbc/3.28.0/406b4fa58eab5d29d779fa86cedb60c7ee071b57/sqlite-jdbc-3.28.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_tech.units:indriya:1.2.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/tech.units/indriya/1.2/30004273dadb9c7621fab035723d03cc1f317855/indriya-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/tech.uom.lib/uom-lib-common/1.1/bc776a2b620df40f8a7ffd39764c6bd846523168/uom-lib-common-1.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath">
+    <pathelement location="C:/Users/deadl/.gradle/caches/modules-2/files-2.1/ua.net.nlp/morfologik-ukrainian-lt/4.7.0/d37752b018ce20719e5dee2f927ab105cf31f666/morfologik-ukrainian-lt-4.7.0.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module FakeNewsDetection -->
+  
+  <dirname property="module.fakenewsdetection.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.fakenewsdetection" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.fakenewsdetection" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.fakenewsdetection" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.fakenewsdetection" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="fakenewsdetection.output.dir" value="undefined"/>
+  <property name="fakenewsdetection.testoutput.dir" value="undefined"/>
+  
+  <path id="fakenewsdetection.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="fakenewsdetection.module.production.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection}"/>
+  </path>
+  
+  <path id="fakenewsdetection.runtime.production.module.classpath"/>
+  
+  <path id="fakenewsdetection.module.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection}"/>
+  </path>
+  
+  <path id="fakenewsdetection.runtime.module.classpath"/>
+  
+  
+  <patternset id="excluded.from.module.fakenewsdetection">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.fakenewsdetection">
+    <patternset refid="excluded.from.module.fakenewsdetection"/>
+  </patternset>
+  
+  
+  <target name="compile.module.fakenewsdetection" depends="compile.module.fakenewsdetection.production,compile.module.fakenewsdetection.tests" description="Compile module FakeNewsDetection"/>
+  
+  <target name="compile.module.fakenewsdetection.production" depends="register.custom.compilers" description="Compile module FakeNewsDetection; production classes"/>
+  
+  <target name="compile.module.fakenewsdetection.tests" depends="register.custom.compilers,compile.module.fakenewsdetection.production" description="compile module FakeNewsDetection; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.fakenewsdetection" description="cleanup module">
+    <delete dir="${fakenewsdetection.output.dir}"/>
+    <delete dir="${fakenewsdetection.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module FakeNewsDetection.main -->
+  
+  <dirname property="module.fakenewsdetection.main.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.fakenewsdetection.main" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.fakenewsdetection.main" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.fakenewsdetection.main" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.fakenewsdetection.main" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="fakenewsdetection.main.output.dir" value="${module.fakenewsdetection.main.basedir}/build/classes/java/main"/>
+  <property name="fakenewsdetection.main.testoutput.dir" value="${module.fakenewsdetection.main.basedir}/build/classes/java/main"/>
+  
+  <path id="fakenewsdetection.main.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="fakenewsdetection.main.module.production.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection.main}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.main.runtime.production.module.classpath">
+    <pathelement location="${fakenewsdetection.main.output.dir}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.main.module.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection.main}"/>
+    <pathelement location="${fakenewsdetection.main.output.dir}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.main.runtime.module.classpath">
+    <pathelement location="${fakenewsdetection.main.output.dir}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.fakenewsdetection.main">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.fakenewsdetection.main">
+    <patternset refid="excluded.from.module.fakenewsdetection.main"/>
+  </patternset>
+  
+  <path id="fakenewsdetection.main.module.sourcepath">
+    <dirset dir="${module.fakenewsdetection.main.basedir}/src/main">
+      <include name="java"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.fakenewsdetection.main" depends="compile.module.fakenewsdetection.main.production,compile.module.fakenewsdetection.main.tests" description="Compile module FakeNewsDetection.main"/>
+  
+  <target name="compile.module.fakenewsdetection.main.production" depends="register.custom.compilers" description="Compile module FakeNewsDetection.main; production classes">
+    <mkdir dir="${fakenewsdetection.main.output.dir}"/>
+    <javac2 destdir="${fakenewsdetection.main.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.fakenewsdetection.main}/javac">
+      <compilerarg line="${compiler.args.fakenewsdetection.main}"/>
+      <bootclasspath refid="fakenewsdetection.main.module.bootclasspath"/>
+      <classpath refid="fakenewsdetection.main.module.production.classpath"/>
+      <src refid="fakenewsdetection.main.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.fakenewsdetection.main"/>
+    </javac2>
+    
+    <copy todir="${fakenewsdetection.main.output.dir}">
+      <fileset dir="${module.fakenewsdetection.main.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.fakenewsdetection.main.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.fakenewsdetection.main.tests" depends="register.custom.compilers,compile.module.fakenewsdetection.main.production" description="compile module FakeNewsDetection.main; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.fakenewsdetection.main" description="cleanup module">
+    <delete dir="${fakenewsdetection.main.output.dir}"/>
+    <delete dir="${fakenewsdetection.main.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module FakeNewsDetection.test -->
+  
+  <dirname property="module.fakenewsdetection.test.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.fakenewsdetection.test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.fakenewsdetection.test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.fakenewsdetection.test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.fakenewsdetection.test" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="fakenewsdetection.test.output.dir" value="undefined"/>
+  <property name="fakenewsdetection.test.testoutput.dir" value="${module.fakenewsdetection.test.basedir}/build/classes/java/test"/>
+  
+  <path id="fakenewsdetection.test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="fakenewsdetection.test.module.production.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection.test}"/>
+    <pathelement location="${fakenewsdetection.main.output.dir}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.test.runtime.production.module.classpath">
+    <path refid="fakenewsdetection.main.runtime.production.module.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.test.module.classpath">
+    <path refid="${module.jdk.classpath.fakenewsdetection.test}"/>
+    <pathelement location="${fakenewsdetection.main.output.dir}"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  <path id="fakenewsdetection.test.runtime.module.classpath">
+    <pathelement location="${fakenewsdetection.test.testoutput.dir}"/>
+    <path refid="fakenewsdetection.main.runtime.module.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-all:4.7.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.12.1.classpath"/>
+    <path refid="library.gradle:_org.json:json:20190722.classpath"/>
+    <path refid="library.gradle:_org.xerial:sqlite-jdbc:3.28.0.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-fxml:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-controls:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-graphics:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:win:13.classpath"/>
+    <path refid="library.gradle:_org.openjfx:javafx-base:13.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-en:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fa:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-fr:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de-de-x-simple-language:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-de:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ca:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-it:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-br:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-nl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-pt:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ru:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ast:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-be:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-zh:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-da:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-eo:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-gl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-el:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ja:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-km:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ro:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sk:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-es:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-sv:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-ta:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-tl:4.7.classpath"/>
+    <path refid="library.gradle:_org.languagetool:language-uk:4.7.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_org.languagetool:languagetool-core:4.7.classpath"/>
+    <path refid="library.gradle:_org.apache.opennlp:opennlp-tools:1.9.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-tokenize-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-postag-models:1.5.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:opennlp-chunk-models:1.5.classpath"/>
+    <path refid="library.gradle:_org.languagetool:hunspell-native-libs:2.9.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:german-pos-dict:1.1.classpath"/>
+    <path refid="library.gradle:_edu.washington.cs.knowitall:openregex:1.1.1.classpath"/>
+    <path refid="library.gradle:_de.danielnaber:jwordsplitter:4.4.classpath"/>
+    <path refid="library.gradle:_com.hankcs:aho-corasick-double-array-trie:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.softcatala:catalan-pos-dict:2.5.classpath"/>
+    <path refid="library.gradle:_com.googlecode.ictclas4j:ictclas4j:1.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code:cjftransform:1.0.1.classpath"/>
+    <path refid="library.gradle:_org.ioperm:morphology-el:1.0.0.classpath"/>
+    <path refid="library.gradle:_com.github.lucene-gosen:lucene-gosen:ipadic:6.2.1.classpath"/>
+    <path refid="library.gradle:_ua.net.nlp:morfologik-ukrainian-lt:4.7.0.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-text:1.7.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.9.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:21.0.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.4.0.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa-builders:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-speller:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-stemming:2.1.6.classpath"/>
+    <path refid="library.gradle:_org.carrot2:morfologik-fsa:2.1.6.classpath"/>
+    <path refid="library.gradle:_com.carrotsearch:hppc:0.7.2.classpath"/>
+    <path refid="library.gradle:_net.loomchild:segment:2.0.1.classpath"/>
+    <path refid="library.gradle:_com.optimaize.languagedetector:language-detector:0.6.classpath"/>
+    <path refid="library.gradle:_com.intellij:annotations:12.0.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-backward-codecs:5.5.4.classpath"/>
+    <path refid="library.gradle:_org.apache.lucene:lucene-core:5.5.4.classpath"/>
+    <path refid="library.gradle:_edu.berkeley.nlp:berkeleylm:1.1.2.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-databind:2.9.9.classpath"/>
+    <path refid="library.gradle:_tech.units:indriya:1.2.classpath"/>
+    <path refid="library.gradle:_tech.uom.lib:uom-lib-common:1.1.classpath"/>
+    <path refid="library.gradle:_javax.measure:unit-api:1.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-runtime:2.3.0.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:jaxb-core:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.xml.bind:jaxb-api:2.3.0.classpath"/>
+    <path refid="library.gradle:_javax.activation:javax.activation-api:1.2.0.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_biz.k11i:xgboost-predictor:0.3.0.classpath"/>
+    <path refid="library.gradle:_ml.dmlc:xgboost4j:0.90.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-csv:1.6.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-pool2:2.6.1.classpath"/>
+    <path refid="library.gradle:_com.ibm.icu:icu4j:56.1.classpath"/>
+    <path refid="library.gradle:_net.arnx:jsonic:1.2.11.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.gradle:_com.fasterxml.jackson.core:jackson-core:2.9.9.classpath"/>
+    <path refid="library.gradle:_org.jvnet.staxex:stax-ex:1.7.8.classpath"/>
+    <path refid="library.gradle:_com.sun.xml.fastinfoset:fastinfoset:1.2.13.classpath"/>
+    <path refid="library.gradle:_net.jafama:jafama:2.1.0.classpath"/>
+    <path refid="library.gradle:_com.typesafe.akka:akka-actor_2.11:2.3.11.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.kryo:kryo:2.21.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-compiler:2.11.12.classpath"/>
+    <path refid="library.gradle:_org.scala-lang:scala-reflect:2.11.12.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.glassfish.jaxb:txw2:2.3.0.classpath"/>
+    <path refid="library.gradle:_com.sun.istack:istack-commons-runtime:3.0.5.classpath"/>
+    <path refid="library.gradle:_com.typesafe:config:1.2.1.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.reflectasm:reflectasm:shaded:1.07.classpath"/>
+    <path refid="library.gradle:_com.esotericsoftware.minlog:minlog:1.2.classpath"/>
+    <path refid="library.gradle:_org.objenesis:objenesis:1.2.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-xml_2.11:1.0.5.classpath"/>
+    <path refid="library.gradle:_org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:4.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.fakenewsdetection.test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.fakenewsdetection.test">
+    <patternset refid="excluded.from.module.fakenewsdetection.test"/>
+  </patternset>
+  
+  
+  <target name="compile.module.fakenewsdetection.test" depends="compile.module.fakenewsdetection.test.production,compile.module.fakenewsdetection.test.tests" description="Compile module FakeNewsDetection.test"/>
+  
+  <target name="compile.module.fakenewsdetection.test.production" depends="register.custom.compilers,compile.module.fakenewsdetection.main" description="Compile module FakeNewsDetection.test; production classes"/>
+  
+  <target name="compile.module.fakenewsdetection.test.tests" depends="register.custom.compilers,compile.module.fakenewsdetection.test.production" description="compile module FakeNewsDetection.test; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.fakenewsdetection.test" description="cleanup module">
+    <delete dir="${fakenewsdetection.test.output.dir}"/>
+    <delete dir="${fakenewsdetection.test.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.fakenewsdetection, clean.module.fakenewsdetection.main, clean.module.fakenewsdetection.test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.fakenewsdetection, compile.module.fakenewsdetection.main, compile.module.fakenewsdetection.test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
