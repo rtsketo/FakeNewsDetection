@@ -1,0 +1,36 @@
+plugins {
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
+}
+
+description = 'Fake News Detection'
+    group = 'eu.rtsketo'
+
+mainClassName = 'eu.rtsketo.fnd.detection.DetectionGUI'
+
+
+dependencies {
+    compile group: 'org.languagetool', name: 'language-all', version: '4.7'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+    compile group: 'org.json', name: 'json', version: '20190722'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
+
+//    compile group: 'org.openjfx', name: 'javafx.graphics', version: '11.0.0-ea1', ext: 'pom'
+
+
+    testCompile 'junit:junit:4.12'
+}
