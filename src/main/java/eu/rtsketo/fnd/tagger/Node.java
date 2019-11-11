@@ -7,15 +7,15 @@ package eu.rtsketo.fnd.tagger;
 
 public class Node
 {
-	FWObject condition;
+	private FWObject condition;
 	String conclusion;
 	Node exceptNode;
 	Node ifnotNode;
 	Node fatherNode;
 	int depth;
 
-	public Node(FWObject inCondition, String inConclusion, Node inFatherNode,
-		Node inExceptNode, Node inIfnotNode, int inDepth)
+	Node(FWObject inCondition, String inConclusion, Node inFatherNode,
+		 Node inExceptNode, Node inIfnotNode, int inDepth)
 	{
 		this.condition = inCondition;
 		this.conclusion = inConclusion;
@@ -25,22 +25,22 @@ public class Node
 		this.depth = inDepth;
 	}
 
-	public void setIfnotNode(Node node)
+	void setIfnotNode(Node node)
 	{
 		this.ifnotNode = node;
 	}
 
-	public void setExceptNode(Node node)
+	void setExceptNode(Node node)
 	{
 		this.exceptNode = node;
 	}
 
-	public void setFatherNode(Node node)
+	void setFatherNode(Node node)
 	{
 		this.fatherNode = node;
 	}
 
-	public int countNodes()
+	private int countNodes()
 	{
 		int count = 1;
 		if (exceptNode != null) {

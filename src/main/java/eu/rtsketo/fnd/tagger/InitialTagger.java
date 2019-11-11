@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +22,8 @@ public class InitialTagger
 {
 	private static final Pattern QUOTATION = Pattern.compile("(â€œ)|(â€?)|(\")");
 
-	public static List<WordTag> InitTagger4Sentence(
-		HashMap<String, String> DICT, String sentence)
+	static List<WordTag> InitTagger4Sentence(
+			HashMap<String, String> DICT, String sentence)
 	{
 		List<WordTag> wordtags = new ArrayList<WordTag>();
 
@@ -95,8 +96,8 @@ public class InitialTagger
 	private static final Pattern VBN = Pattern.compile(".*ed$");
 	private static final Pattern RB = Pattern.compile(".*ly$");
 
-	public static List<WordTag> EnInitTagger4Sentence(
-		HashMap<String, String> DICT, String sentence)
+	static List<WordTag> EnInitTagger4Sentence(
+			HashMap<String, String> DICT, String sentence)
 	{
 		List<WordTag> wordtags = new ArrayList<WordTag>();
 
@@ -148,10 +149,10 @@ public class InitialTagger
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(inputRawFilePath)), "UTF-8"));
+			new FileInputStream(new File(inputRawFilePath)), StandardCharsets.UTF_8));
 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(outFilePath), "UTF-8"));
+			new FileOutputStream(outFilePath), StandardCharsets.UTF_8));
 
 		for (String line; (line = buffer.readLine()) != null;) {
 			line = line.trim();
@@ -168,8 +169,8 @@ public class InitialTagger
 		bw.close();
 	}
 
-	public static List<WordTag> VnInitTagger4Sentence(
-		HashMap<String, String> DICT, String sentence)
+	static List<WordTag> VnInitTagger4Sentence(
+			HashMap<String, String> DICT, String sentence)
 	{
 		List<WordTag> wordtags = new ArrayList<WordTag>();
 
@@ -244,10 +245,10 @@ public class InitialTagger
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(inputRawFilePath)), "UTF-8"));
+			new FileInputStream(new File(inputRawFilePath)), StandardCharsets.UTF_8));
 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(outFilePath), "UTF-8"));
+			new FileOutputStream(outFilePath), StandardCharsets.UTF_8));
 
 		for (String line; (line = buffer.readLine()) != null;) {
 			line = line.trim();

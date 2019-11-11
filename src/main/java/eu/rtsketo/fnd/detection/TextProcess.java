@@ -27,11 +27,11 @@ public class TextProcess {
     private List<String> phrases;
     private String translation = "";
     
-    public TextProcess(String t) throws IOException {
+    TextProcess(String t) throws IOException {
         this(t, false);
     }
     
-    public TextProcess(String t, boolean eng) throws IOException {
+    private TextProcess(String t, boolean eng) throws IOException {
         if (t.startsWith("http")) {
             InputStream is = new URL(t).openStream();
             text = Jsoup.parse(is,"UTF-8",t).body().text();
@@ -64,8 +64,7 @@ public class TextProcess {
     
     public String[] getPhrases() {
         if (phrase == null)
-            phrase = phrases.toArray(
-                    new String[phrases.size()]);
+            phrase = phrases.toArray(new String[0]);
         return phrase;
     }
     
@@ -108,7 +107,7 @@ public class TextProcess {
         return new TextProcess(translation, true);
     }
     
-    public Map<String, Integer> getCount(String method) {
+    Map<String, Integer> getCount(String method) {
         switch (method) {
             case "tqgr":
             case "tqen":
@@ -130,7 +129,7 @@ public class TextProcess {
         }
     }
     
-    public int spellcheck() throws IOException {
+    int spellcheck() throws IOException {
         String text = this.text
                 .replaceAll("[^\\p{InGreek}]+", " ")
                 .replaceAll("\\s{2,}", " ").trim();
@@ -150,7 +149,7 @@ public class TextProcess {
         return matches.size();
     }
     
-    public String[] getTagOrder() {
+    String[] getTagOrder() {
         if (bot == null) bot = new BoTags(this);
         return bot.getTagOrder();
     }

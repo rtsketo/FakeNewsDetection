@@ -6,6 +6,7 @@ import static java.lang.Thread.sleep;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class Translation implements Callable<String> {
     @Override
     public String call() throws Exception {
         Thread[] threads = new Thread[maxThreads];
-        String translation = "";
+        StringBuilder translation = new StringBuilder();
         
         for (int t=0;t<maxThreads;t++)
             threads[t] = createThread(t);
@@ -33,13 +34,15 @@ public class Translation implements Callable<String> {
         boolean activeThreads = true;
         while (activeThreads) {
             activeThreads = false;
-            for (Thread t : threads) 
-                if (t.isAlive()) activeThreads = true;
+            for (Thread t : threads)
+                if (t.isAlive()) {
+                    activeThreads = true;
+                    break;
+                }
             sleep(50); }
-        
-        for (int p=0; p<translated.length; p++)
-            translation += translated[p] + " ";
-        return translation;
+
+        for (String s : translated) translation.append(s).append(" ");
+        return translation.toString();
     }
 
     private Thread createThread(int t) {
@@ -68,7 +71,7 @@ public class Translation implements Callable<String> {
             String url = "https://translate.googleapis.com/"
                     + "translate_a/single?client=gtx"
                     + "&sl=el&tl=en&dt=t&q=" 
-                    + URLEncoder.encode(phrase, "UTF-8");
+                    + URLEncoder.encode(phrase, StandardCharsets.UTF_8);
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection)
@@ -79,7 +82,7 @@ public class Translation implements Callable<String> {
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
 
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine); }
             in.close();

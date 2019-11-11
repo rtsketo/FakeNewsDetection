@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class RDRPOSTagger
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(rulesFilePath)), "UTF-8"));
+			new FileInputStream(new File(rulesFilePath)), StandardCharsets.UTF_8));
 		String line = buffer.readLine();
 
 		this.root = new Node(new FWObject(false), "NN", null, null, null, 0);
@@ -83,7 +84,7 @@ public class RDRPOSTagger
 		buffer.close();
 	}
 
-	public Node findFiredNode(FWObject object)
+	private Node findFiredNode(FWObject object)
 	{
 		Node currentN = root;
 		Node firedN = null;
@@ -111,7 +112,7 @@ public class RDRPOSTagger
 		return firedN;
 	}
 
-	public String tagInitializedSentence(String inInitializedSentence)
+	private String tagInitializedSentence(String inInitializedSentence)
 	{
 		StringBuilder sb = new StringBuilder();
 		List<WordTag> wordtags = Utils.getWordTagList(inInitializedSentence);
@@ -131,13 +132,13 @@ public class RDRPOSTagger
 		return sb.toString();
 	}
 
-	public void tagInitializedCorpus(String inInitializedFilePath)
+	private void tagInitializedCorpus(String inInitializedFilePath)
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(inInitializedFilePath)), "UTF-8"));
+			new FileInputStream(new File(inInitializedFilePath)), StandardCharsets.UTF_8));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(inInitializedFilePath + ".TAGGED"), "UTF-8"));
+			new FileOutputStream(inInitializedFilePath + ".TAGGED"), StandardCharsets.UTF_8));
 
 		for (String line; (line = buffer.readLine()) != null;) {
 			line = line.replace("â€œ", "''").replace("â€?", "''")
@@ -152,8 +153,8 @@ public class RDRPOSTagger
 		bw.close();
 	}
 
-	public String tagVnSentence(HashMap<String, String> FREQDICT,
-		String sentence)
+	private String tagVnSentence(HashMap<String, String> FREQDICT,
+								 String sentence)
 		throws IOException
 	{
 		StringBuilder sb = new StringBuilder();
@@ -170,20 +171,20 @@ public class RDRPOSTagger
 		for (int i = 0; i < size; i++) {
 			FWObject object = Utils.getObject(wordtags, size, i);
 			Node firedNode = findFiredNode(object);
-			sb.append(wordtags.get(i).word + "/" + firedNode.conclusion + " ");
+			sb.append(wordtags.get(i).word).append("/").append(firedNode.conclusion).append(" ");
 		}
 
 		return sb.toString();
 	}
 
-	public void tagVnCorpus(HashMap<String, String> FREQDICT,
-		String inRawFilePath)
+	private void tagVnCorpus(HashMap<String, String> FREQDICT,
+							 String inRawFilePath)
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(inRawFilePath)), "UTF-8"));
+			new FileInputStream(new File(inRawFilePath)), StandardCharsets.UTF_8));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(inRawFilePath + ".TAGGED"), "UTF-8"));
+			new FileOutputStream(inRawFilePath + ".TAGGED"), StandardCharsets.UTF_8));
 		for (String line; (line = buffer.readLine()) != null;) {
 			bw.write(tagVnSentence(FREQDICT, line) + "\n");
 		}
@@ -191,8 +192,8 @@ public class RDRPOSTagger
 		bw.close();
 	}
 
-	public String tagEnSentence(HashMap<String, String> FREQDICT,
-		String sentence)
+	private String tagEnSentence(HashMap<String, String> FREQDICT,
+								 String sentence)
 		throws IOException
 	{
 		StringBuilder sb = new StringBuilder();
@@ -214,8 +215,8 @@ public class RDRPOSTagger
 		return sb.toString();
 	}
 
-	public void tagEnCorpus(HashMap<String, String> FREQDICT,
-		String inRawFilePath)
+	private void tagEnCorpus(HashMap<String, String> FREQDICT,
+							 String inRawFilePath)
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
@@ -246,24 +247,22 @@ public class RDRPOSTagger
 			FWObject object = Utils.getObject(wordtags, size, i);
 			Node firedNode = findFiredNode(object);
 			if (firedNode.depth > 0)
-				sb.append(wordtags.get(i).word + "/" + firedNode.conclusion
-					+ " ");
+				sb.append(wordtags.get(i).word).append("/").append(firedNode.conclusion).append(" ");
 			else {
 				// Fired at root, return initialized tag.
-				sb.append(wordtags.get(i).word + "/" + wordtags.get(i).tag
-					+ " ");
+				sb.append(wordtags.get(i).word).append("/").append(wordtags.get(i).tag).append(" ");
 			}
 		}
 		return sb.toString();
 	}
 
-	public void tagCorpus(HashMap<String, String> FREQDICT, String inRawFilePath)
+	private void tagCorpus(HashMap<String, String> FREQDICT, String inRawFilePath)
 		throws IOException
 	{
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(
-			new FileInputStream(new File(inRawFilePath)), "UTF-8"));
+			new FileInputStream(new File(inRawFilePath)), StandardCharsets.UTF_8));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-			new FileOutputStream(inRawFilePath + ".TAGGED"), "UTF-8"));
+			new FileOutputStream(inRawFilePath + ".TAGGED"), StandardCharsets.UTF_8));
 		for (String line; (line = buffer.readLine()) != null;) {
 			bw.write(tagSentence(FREQDICT, line) + "\n");
 		}
@@ -272,7 +271,7 @@ public class RDRPOSTagger
 
 	}
 
-	public static void printHelp()
+	private static void printHelp()
 	{
 		System.out.println("\n===== Usage =====");
 		System.out
@@ -298,7 +297,7 @@ public class RDRPOSTagger
 
 	}
 
-	public static void run(String args[])
+	public static void run(String[] args)
 		throws IOException
 	{
 		try {

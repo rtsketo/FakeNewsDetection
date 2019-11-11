@@ -51,12 +51,12 @@ public class FakeDetection {
         rare = true;
     }
     
-    public FakeDetection(DetectionGUI gui) throws SQLException {
+    FakeDetection(DetectionGUI gui) throws SQLException {
         this("edu.db");
         this.gui = gui;
     }
     
-    public void learnFromFiles() {
+    void learnFromFiles() {
         int learnSum = 0;
         
         if (gui != null) {
@@ -139,7 +139,7 @@ public class FakeDetection {
             }
             else {
                 try { sleep(10000); }
-                catch (Exception iex) {}
+                catch (Exception ignored) {}
                 finally { learnFromURL(url, veracity); }
             }
         }
@@ -188,7 +188,7 @@ public class FakeDetection {
                 errorLog(url);
             else {
                 try { sleep(10000); }
-                catch (Exception iex) { }
+                catch (Exception ignored) { }
                 finally { checkVeracity(url); }
             }
         }
@@ -237,8 +237,8 @@ public class FakeDetection {
     
     private Pair<String, Double> checkFor(String method, TextProcess tp) {
             
-        String reasonWord[] = new String[maxResults+1];
-        double reasonInfl[] = new double[maxResults+1];
+        String[] reasonWord = new String[maxResults+1];
+        double[] reasonInfl = new double[maxResults+1];
         
         int sum = 0;
         double veracity = 0;   
@@ -261,29 +261,22 @@ public class FakeDetection {
             reasonWord[maxResults] = entry.getKey();
             
             for (int c = maxResults-1; c >= 0; c--)
-                if (abs(reasonInfl[c]) < abs(reasonInfl[c+1])) {
-                    double tempPercent = reasonInfl[c+1];
-                    reasonInfl[c+1] = reasonInfl[c];
-                    reasonInfl[c] = tempPercent;
-                    String tempWord = reasonWord[c+1];
-                    reasonWord[c+1] = reasonWord[c];
-                    reasonWord[c] = tempWord;
-                }
-            
+                iterateReasons(reasonWord, reasonInfl, c);
+
             sum += entry.getValue();
             
             double progress = veracity/sum;
             
             if (gui!=null) {
-                gui.updateProg(method,progress);
-                try { 
-//                    if (method.startsWith("t")) sleep(20);
-                sleep(10); } catch (InterruptedException ex) {}
+                gui.updateProg(method, progress);
+                try {
+                    if (method.startsWith("t")) sleep(20);
+                sleep(10); } catch (InterruptedException ignored) {}
             }
         }
         
         int strlen = 0;
-        String reason = "\n\nInfluencive Words:\n";
+        StringBuilder reason = new StringBuilder("\n\nInfluencive Words:\n");
         for (int c = 0; c < maxResults; c++) 
             if (reasonWord[c] != null && c%2==0) {
                 String len = c+1+") "+reasonWord[c]+": "
@@ -294,23 +287,23 @@ public class FakeDetection {
         
         for (int c = 0; c < maxResults; c++) 
             if (reasonWord[c] != null) {
-                reason += String.format("%-" + 
-                        min(32,strlen) + "s", c+1+") " +
+                reason.append(String.format("%-" +
+                        min(32, strlen) + "s", c + 1 + ") " +
                         reasonWord[c] + ": " +
-                        roundPercent(reasonInfl[c]/sum));
+                        roundPercent(reasonInfl[c] / sum)));
                 
-                if (c%2==1) reason += "\n";
-                else reason += "\t";
+                if (c%2==1) reason.append("\n");
+                else reason.append("\t");
             }
-        reason += "\nVeracity: "+roundPercent(veracity/sum);
-        return new Pair(reason,veracity/sum);
+        reason.append("\nVeracity: ").append(roundPercent(veracity / sum));
+        return new Pair(reason.toString(),veracity/sum);
     }
 
     private Pair<String, Double> checkSyntax(TextProcess tp) {
             
         int length = maxResults/2;
-        String reasonWord[] = new String[length];
-        double reasonInfl[] = new double[length];
+        String[] reasonWord = new String[length];
+        double[] reasonInfl = new double[length];
         
         int sum = 0;
         double veracity = 0;
@@ -348,15 +341,8 @@ public class FakeDetection {
                             reasonPh.length())) + "...";
             
             for (int c = length-2; c >= 0; c--)
-                if (abs(reasonInfl[c]) < abs(reasonInfl[c+1])) {
-                    double tempPercent = reasonInfl[c+1];
-                    reasonInfl[c+1] = reasonInfl[c];
-                    reasonInfl[c] = tempPercent;
-                    String tempWord = reasonWord[c+1];
-                    reasonWord[c+1] = reasonWord[c];
-                    reasonWord[c] = tempWord;
-                }
-            
+                iterateReasons(reasonWord, reasonInfl, c);
+
             sum++;
             double progress = veracity/sum;
             outputln(sum + ") Veracity: " + roundPercent(percent)+
@@ -368,7 +354,7 @@ public class FakeDetection {
                 gui.updateProg(tp.isEnglish()?
                         "synen" : "syngr", progress);
                 try { sleep(40); } 
-                catch (InterruptedException ex) {}
+                catch (InterruptedException ignored) {}
             }
         }
         
@@ -382,7 +368,18 @@ public class FakeDetection {
         reason += "\nVeracity: "+roundPercent(veracity/sum);
         return new Pair(reason,veracity/sum);
     }
-    
+
+    private void iterateReasons(String[] reasonWord, double[] reasonInfl, int c) {
+        if (abs(reasonInfl[c]) < abs(reasonInfl[c+1])) {
+            double tempPercent = reasonInfl[c+1];
+            reasonInfl[c+1] = reasonInfl[c];
+            reasonInfl[c] = tempPercent;
+            String tempWord = reasonWord[c+1];
+            reasonWord[c+1] = reasonWord[c];
+            reasonWord[c] = tempWord;
+        }
+    }
+
     public void close() {
         try {
             db.closeConnection();
@@ -412,8 +409,8 @@ public class FakeDetection {
         try(FileWriter fw = new FileWriter("SiteError.log", true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter pw = new PrintWriter(bw)) {
-            output("\nSite Unavailable: "+url);    
-            pw.append("\nSite Unavailable: "+url);
+            output("\nSite Unavailable: " + url);
+            pw.append("\nSite Unavailable: ").append(url);
         } catch (IOException ex) {
             Logger.getLogger(FakeDetection.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -421,27 +418,20 @@ public class FakeDetection {
     }
     
     private boolean testSite(String site) {
-        Socket sock = new Socket();
-        InetSocketAddress addr = 
-                new InetSocketAddress(site,80);
-        
-        try { 
-            sock.connect(addr,3000);
+        try (Socket sock = new Socket()) {
+            InetSocketAddress addr =
+                    new InetSocketAddress(site, 80);
+            sock.connect(addr, 3000);
             return true;
         } catch (IOException e) {
             return false;
-        } finally {
-            try { sock.close(); }
-            catch (IOException e) {}
         }
     }
     
-    public boolean testInternet() {
-        if (testSite("google.com")
+    private boolean testInternet() {
+        return testSite("google.com")
                 && testSite("amazon.com")
-                && testSite("yahoo.com"))
-            return true;       
-        return false;
+                && testSite("yahoo.com");
     }
     
     private void clearLinks(String file) {

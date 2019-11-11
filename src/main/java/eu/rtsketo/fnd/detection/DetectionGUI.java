@@ -44,14 +44,12 @@ public class DetectionGUI extends Application implements Initializable {
     private CompletableFuture<Pair<String,Double>[]> results;
     private Pair<String,Double>[] reason = new Pair[numMeth];
     private boolean resultChanged = true;
-    private ProgressBar[] bars;
     private FakeDetection fd;
     private Preferences pref;
     private int learningSum;
     private int learningCur;
     private int strlen = 0;
     private int line = 1;
-    private final int fixed = 597;
     @FXML private TextFlow console;
     @FXML private ScrollPane scroll;
     @FXML private CheckBox chkVera;
@@ -97,11 +95,13 @@ public class DetectionGUI extends Application implements Initializable {
                 .getResourceAsStream("/assets/icon.png")));
         
         stage.initStyle(StageStyle.UNIFIED);
-        stage.setMinHeight(fixed+130);
-        stage.setMaxHeight(fixed+140);
-        stage.setMaxWidth(fixed+100);
+
+        int fixed = 597;
+        stage.setMinHeight(fixed +130);
+        stage.setMaxHeight(fixed +140);
+        stage.setMaxWidth(fixed +100);
         stage.setMinWidth(fixed);
-        stage.setHeight(fixed+130);
+        stage.setHeight(fixed +130);
         stage.setWidth(fixed);
         stage.setScene(scene);
         stage.show();
@@ -153,34 +153,30 @@ public class DetectionGUI extends Application implements Initializable {
             fd.setRare(pref.getBoolean("rare", true));
             fd.setMin(pref.getInt("min", 1));
             fd.setSpell(false);
-            
-            bars = new ProgressBar[] { progUniGr,
-                progUniEn, progBiGr, progBiEn, progTagTriGr,
-                progTagTriEn, progTagQuaGr, progTagQuaEn,
-                progSynGr, progSynEn, progOverall };
+
+            ProgressBar[] bars = new ProgressBar[] { progUniGr,
+                    progUniEn, progBiGr, progBiEn, progTagTriGr,
+                    progTagTriEn, progTagQuaGr, progTagQuaEn,
+                    progSynGr, progSynEn, progOverall };
             
             chkRare.setSelected(!pref.getBoolean("rare", true));
-            chkRare.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
+            chkRare.setOnMouseClicked(event -> {
                 pref.putBoolean("rare", !chkRare.isSelected());
-                fd.setRare(!chkRare.isSelected()); }});
+                fd.setRare(!chkRare.isSelected()); });
             
-            chkSmoo.setSelected(pref.getInt("min", 1)==0? false:true);
-            chkSmoo.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
+            chkSmoo.setSelected(pref.getInt("min", 1) != 0);
+            chkSmoo.setOnMouseClicked(event -> {
                 pref.putInt("min", chkSmoo.isSelected()? 1:0);
-                fd.setMin((chkSmoo.isSelected())? 1:0); }});
+                fd.setMin((chkSmoo.isSelected())? 1:0); });
             
             chkLink.setSelected(pref.getBoolean("link", false));
-            chkLink.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
+            chkLink.setOnMouseClicked(event -> {
                 pref.putBoolean("link", chkLink.isSelected());
-                fd.setLinks(chkLink.isSelected()); }});
+                fd.setLinks(chkLink.isSelected()); });
                         
             for (int b = 0; b < bars.length; b++) {
                 int bar = b;
-                bars[b].setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent event) {
+                bars[b].setOnMouseClicked(event -> {
                     if (!btnCheck.isDisabled())
                         try {
                             if (results != null && resultChanged)
@@ -190,20 +186,20 @@ public class DetectionGUI extends Application implements Initializable {
                             Logger.getLogger(DetectionGUI.class.getName())
                                 .log(Level.SEVERE, null, ex);
                         }
-                    
+
                     cls();
                     if (reason[bar] != null) {
                         print(reason[bar].getKey());
                            System.out.println(reason[bar].getKey());
                     }
-                }});}
+                });}
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             System.out.println("Database is in use! "
                     + "Retrying in few seconds...");
             try { sleep(5000);
                 initialize(location, resources);
-            } catch (InterruptedException ex1) { }
+            } catch (InterruptedException ignored) { }
         }
         
     }
@@ -252,7 +248,7 @@ public class DetectionGUI extends Application implements Initializable {
             
     }
     
-    public void updateProg(String select, double progress) {
+    void updateProg(String select, double progress) {
         ProgressBar prog;
         Label label;
         
@@ -316,13 +312,13 @@ public class DetectionGUI extends Application implements Initializable {
         return bar.getProgress();
     }
 
-    public void setLearnSum(int learnSum) {
+    void setLearnSum(int learnSum) {
         learningSum = learnSum;
         learningCur = 0;
         btnDisabled(true);
     }
 
-    public void updateLearn() {
+    void updateLearn() {
         Platform.runLater(()->{
             progLearn.setProgress((double)learningCur++/learningSum);
             if (learningCur == learningSum) {
@@ -332,7 +328,7 @@ public class DetectionGUI extends Application implements Initializable {
         });
     }
         
-    public void btnDisabled(boolean wuh) {
+    void btnDisabled(boolean wuh) {
         Platform.runLater(()->{
             if (wuh) progLearn.setProgress(-1);
             else progLearn.setProgress(0);
@@ -348,7 +344,7 @@ public class DetectionGUI extends Application implements Initializable {
         });
     }
 
-    public void cls() {
+    void cls() {
         Platform.runLater(()->{
             console.getChildren().clear();
         });

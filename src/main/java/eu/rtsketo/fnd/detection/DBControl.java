@@ -15,25 +15,19 @@ import java.util.logging.Logger;
 // Database controlling class
 public class DBControl {
     private Map<String, double[]> readCache = new HashMap<>();
-    private String sqlSelect = "SELECT * FROM $ WHERE word = ?";
-    private String sqlInsert = "INSERT OR IGNORE INTO $ VALUES (?,?,?)";
-    private String sqlUpdate = "UPDATE $ SET good = good + ?,"
-                + " fake = fake + ? WHERE word IS ?";
-    
+
     private String[] types = { "unigr", "unien", "bigr",
             "bien", "ttgr", "tten", "tqgr", "tqen",
             "syngr", "synen", "spell" };
     
     private final int numMeth = types.length;
-    private int sumGood[] = new int[numMeth];
-    private int sumFake[] = new int[numMeth];
+    private int[] sumGood = new int[numMeth];
+    private int[] sumFake = new int[numMeth];
     private boolean dbChanged = true;
-    private final String file;
     private int minValue = 0;
     private Connection conn;
         
-    public DBControl(String file) throws SQLException {
-        this.file = file;   // Connecting to the database
+    DBControl(String file) throws SQLException {
         conn = DriverManager.getConnection("jdbc:sqlite:"+file);
         Statement query = conn.createStatement();
         
@@ -74,8 +68,8 @@ public class DBControl {
         updateMax();
     }
     
-    public void addWord(String word, int count,
-            boolean veracity, String table) {
+    void addWord(String word, int count,
+                 boolean veracity, String table) {
         
         int good = 0;
         int fake = 0;
@@ -94,8 +88,8 @@ public class DBControl {
         }
     }
     
-    public void addSpell(int errorCount,
-            int wordCount, boolean veracity) {
+    void addSpell(int errorCount,
+                  int wordCount, boolean veracity) {
         int good = 0;
         int fake = 0;
         int wgood = 0;
@@ -152,7 +146,7 @@ public class DBControl {
         
     }
     
-    public double[] getWord(String word, String table) {
+    double[] getWord(String word, String table) {
         int type = Arrays.asList(types).indexOf(table);
         double[] result;
         int good = 0;
@@ -167,6 +161,7 @@ public class DBControl {
             if (result != null) return result;
             
             PreparedStatement pstat;
+            String sqlSelect = "SELECT * FROM $ WHERE word = ?";
             pstat = conn.prepareStatement(
                     sqlSelect.replace("$",table));
             pstat.setString(1, word);
@@ -209,6 +204,7 @@ public class DBControl {
     private void insertQuery(String table,
             String word) throws SQLException {
         PreparedStatement pstat;
+        String sqlInsert = "INSERT OR IGNORE INTO $ VALUES (?,?,?)";
         pstat = conn.prepareStatement(
                 sqlInsert.replace("$",table));
         pstat.setString(1, word);
@@ -226,6 +222,8 @@ public class DBControl {
         insertQuery(table,word);
         
         PreparedStatement pstat;
+        String sqlUpdate = "UPDATE $ SET good = good + ?,"
+                + " fake = fake + ? WHERE word IS ?";
         pstat = conn.prepareStatement(
                 sqlUpdate.replace("$", table));
         pstat.setInt(1, good);
@@ -238,15 +236,14 @@ public class DBControl {
         conn.setAutoCommit(true);
     }
     
-    public void closeConnection() 
+    void closeConnection()
             throws SQLException {
         conn.close();
     }
     
-    public void setMinValue(int val) {
+    void setMinValue(int val) {
         minValue = val;
     }
-
     public String[] getTypes() {
         return types;
     }

@@ -21,17 +21,16 @@ import java.util.logging.Logger;
 import javafx.util.Pair;
 
 public class Tester {
-    static Pair<String, Double>[] result;
-    final static int numMeth = 11;
-    static List<String> good;
-    static List<String> fake;
-    static FakeDetection fd;
-    static int falseGood[];
-    static int falseFake[];
-    static PrintWriter pw;
-    static Random rand;
+    private final static int numMeth = 11;
+    private static List<String> good;
+    private static List<String> fake;
+    private static FakeDetection fd;
+    private static int[] falseGood;
+    private static int[] falseFake;
+    private static PrintWriter pw;
+    private static Random rand;
 
-    public static void main (String args[]) {
+    public static void main (String[] args) {
         int reps = 1;
         if (args.length > 0) 
             reps = Integer.parseInt(args[0]);
@@ -70,7 +69,7 @@ public class Tester {
             System.out.println("Database is in use! "
                     + "Retrying in few seconds...");
             try { sleep(50000); }
-            catch (InterruptedException eex) { }
+            catch (InterruptedException ignored) { }
             finally { testAccuracy(); }
         }
     }
@@ -106,7 +105,7 @@ public class Tester {
     
     private static void checkAccuracy(boolean vera) {
         List<String> pool = new ArrayList();
-        int falsePool[] = new int[numMeth];
+        int[] falsePool = new int[numMeth];
         int ineq = 1;
         
         if (vera) pool.addAll(good);
@@ -116,11 +115,11 @@ public class Tester {
         }
 
         for (String url : pool) {
-            result = fd.checkVeracity(url);
+            Pair<String, Double>[] result = fd.checkVeracity(url);
             if (result != null)
-                for (int c=0; c<result.length; c++) 
+                for (int c = 0; c< result.length; c++)
                     if (result[c] != null)
-                        if (ineq*result[c].getValue()<.5*ineq)
+                        if (ineq* result[c].getValue()<.5*ineq)
                             falsePool[c]++;
         }
         
@@ -135,7 +134,7 @@ public class Tester {
                 BufferedWriter bw = new BufferedWriter(fw)) {
             
             pw = new PrintWriter(bw);
-            String label[] = { "UniGr",  "UniEn", "BiGr",
+            String[] label = { "UniGr",  "UniEn", "BiGr",
                 "BiEn", "TTGr", "TTEn", "TQGr", "TQEn",
                 "SynGr", "SynEn" };
             

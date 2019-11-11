@@ -9,20 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 // Bag of Part of Speech class.
-public class BoTags {
+class BoTags {
     private Map<String, Integer> tagTriCount = new HashMap<>();
     private Map<String, Integer> tagQuaCount = new HashMap<>();
-    private List<String> tags;
-    private String[] phrase;
-    private String[] tagged;
     private String[] tOrder;
     
     // Constructor.
-    public BoTags(TextProcess tp) {
-        phrase = tp.getPhrases();
-        tagged = new String[phrase.length];
-        tOrder = new String[phrase.length];
-        tags = new ArrayList<>();
+    BoTags(TextProcess tp) {
+        String[] phrase1 = tp.getPhrases();
+        String[] tagged = new String[phrase1.length];
+        tOrder = new String[phrase1.length];
         
         try {   // PoS-tagging.
             RDRPOSTagger tree = new RDRPOSTagger();
@@ -42,18 +38,17 @@ public class BoTags {
             FREQDICT = Utils.getDictionary(dicPath);
             
             // PoS tagging each phrase(sentence) of text.
-            for (int p = 0; p < phrase.length; p++) {
-                tagged[p] = tree.tagSentence(FREQDICT,phrase[p]);
+            for (int p = 0; p < phrase1.length; p++) {
+                tagged[p] = tree.tagSentence(FREQDICT, phrase1[p]);
                 System.out.println(tagged[p]);
                 tOrder[p] = "$start$ ";
                 
-                // Splitting senteces in to words and tags.
+                // Splitting sentences into words and tags.
                 String[] wordWithTags = tagged[p].split(" ");
                 for (String wordWithTag : wordWithTags) {
                     String[] split = wordWithTag.split("/");
                     String tag = split[split.length-1];
                     tOrder[p] += tag + " "; 
-                    tags.add(tag);
                 }
                 
                 tOrder[p] += "$$end$$";
@@ -85,15 +80,13 @@ public class BoTags {
         }
     }
     
-    public Map<String, Integer> getTagTriCount() {
+    Map<String, Integer> getTagTriCount() {
         return tagTriCount;
     }
-    
-    public Map<String, Integer> getTagQuaCount() {
+    Map<String, Integer> getTagQuaCount() {
         return tagQuaCount;
     }
-    
-    public String[] getTagOrder() {
+    String[] getTagOrder() {
         return tOrder;
     }
 }

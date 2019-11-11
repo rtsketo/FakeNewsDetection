@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class Utils
 {
-	public static List<WordTag> getWordTagList(String initializedSentence)
+	static List<WordTag> getWordTagList(String initializedSentence)
 	{
 		List<WordTag> wordTagList = new ArrayList<WordTag>();
 		for (String wordTag : initializedSentence.split("\\s+")) {
@@ -37,22 +38,17 @@ public class Utils
 
 	public static HashMap<String, String> getDictionary(String dictPath)
 	{
-		HashMap<String, String> dict = new HashMap<String, String>();
+		HashMap<String, String> dict = new HashMap<>();
 		BufferedReader buffer;
 		try {
 			buffer = new BufferedReader(new InputStreamReader(
-				new FileInputStream(new File(dictPath)), "UTF-8"));
+				new FileInputStream(new File(dictPath)), StandardCharsets.UTF_8));
 			for (String line; (line = buffer.readLine()) != null;) {
 				String[] wordTag = line.split(" ");
 				dict.put(wordTag[0], wordTag[1]);
 			}
 			buffer.close();
-		}
-		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -60,7 +56,7 @@ public class Utils
 		return dict;
 	}
 
-	public static boolean isVnProperNoun(String word)
+	static boolean isVnProperNoun(String word)
 	{
 		if (Character.isUpperCase(word.charAt(0))) {
 			if (word.split("_").length >= 5)
@@ -79,7 +75,7 @@ public class Utils
 
 	}
 
-	public static boolean isAbbre(String word)
+	static boolean isAbbre(String word)
 	{
 		for (int i = 0; i < word.length(); i++) {
 			if (Character.isLowerCase(word.charAt(i)) || word.charAt(i) == '_')
@@ -88,7 +84,7 @@ public class Utils
 		return true;
 	}
 
-	public static FWObject getCondition(String strCondition)
+	static FWObject getCondition(String strCondition)
 	{
 		FWObject condition = new FWObject(false);
 
@@ -98,51 +94,53 @@ public class Utils
 				rule.indexOf(" "));
 			String value = getConcreteValue(rule);
 
-			if (key.equals("prevWord2")) {
-				condition.context[4] = value;
-			}
-			else if (key.equals("prevTag2")) {
-				condition.context[5] = value;
-			}
-			else if (key.equals("prevWord1")) {
-				condition.context[2] = value;
-			}
-			else if (key.equals("prevTag1")) {
-				condition.context[3] = value;
-			}
-			else if (key.equals("word")) {
-				condition.context[1] = value;
-			}
-			else if (key.equals("tag")) {
-				condition.context[0] = value;
-			}
-			else if (key.equals("nextWord1")) {
-				condition.context[6] = value;
-			}
-			else if (key.equals("nextTag1")) {
-				condition.context[7] = value;
-			}
-			else if (key.equals("nextWord2")) {
-				condition.context[8] = value;
-			}
-			else if (key.equals("nextTag2")) {
-				condition.context[9] = value;
-			}
-			else if (key.equals("suffixL2")) {
-				condition.context[10] = value;
-			}
-			else if (key.equals("suffixL3")) {
-				condition.context[11] = value;
-			}
-			else if (key.equals("suffixL4")) {
-				condition.context[12] = value;
+			switch (key) {
+				case "prevWord2":
+					condition.context[4] = value;
+					break;
+				case "prevTag2":
+					condition.context[5] = value;
+					break;
+				case "prevWord1":
+					condition.context[2] = value;
+					break;
+				case "prevTag1":
+					condition.context[3] = value;
+					break;
+				case "word":
+					condition.context[1] = value;
+					break;
+				case "tag":
+					condition.context[0] = value;
+					break;
+				case "nextWord1":
+					condition.context[6] = value;
+					break;
+				case "nextTag1":
+					condition.context[7] = value;
+					break;
+				case "nextWord2":
+					condition.context[8] = value;
+					break;
+				case "nextTag2":
+					condition.context[9] = value;
+					break;
+				case "suffixL2":
+					condition.context[10] = value;
+					break;
+				case "suffixL3":
+					condition.context[11] = value;
+					break;
+				case "suffixL4":
+					condition.context[12] = value;
+					break;
 			}
 		}
 
 		return condition;
 	}
 
-	public static FWObject getObject(List<WordTag> wordtags, int size, int index)
+	static FWObject getObject(List<WordTag> wordtags, int size, int index)
 	{
 		FWObject object = new FWObject(true);
 
@@ -184,7 +182,7 @@ public class Utils
 		return object;
 	}
 
-	public static String getConcreteValue(String str)
+	static String getConcreteValue(String str)
 	{
 		if (str.contains("\"\"")) {
 			if (str.contains("Word"))
@@ -194,12 +192,11 @@ public class Utils
 			else
 				return "<T>";
 		}
-		String conclusion = str.substring(str.indexOf("\"") + 1,
+		return str.substring(str.indexOf("\"") + 1,
 			str.length() - 1);
-		return conclusion;
 	}
 
-	public static void main(String args[])
+	public static void main(String[] args)
 	{
 	}
 }
