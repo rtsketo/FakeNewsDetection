@@ -206,7 +206,7 @@ public class DBControl {
         PreparedStatement pstat;
         String sqlInsert = "INSERT OR IGNORE INTO $ VALUES (?,?,?)";
         pstat = conn.prepareStatement(
-                sqlInsert.replace("$",table));
+                sqlInsert.replace("$", table));
         pstat.setString(1, word);
         pstat.setInt(2, minValue);
         pstat.setInt(3, minValue);

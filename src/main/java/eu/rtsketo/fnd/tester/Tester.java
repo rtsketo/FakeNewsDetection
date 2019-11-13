@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import javafx.util.Pair;
 
 public class Tester {
-    private final static int numMeth = 11;
+    private static final int numMeth = 11;
     private static List<String> good;
     private static List<String> fake;
     private static FakeDetection fd;
@@ -118,8 +118,8 @@ public class Tester {
             Pair<String, Double>[] result = fd.checkVeracity(url);
             if (result != null)
                 for (int c = 0; c< result.length; c++)
-                    if (result[c] != null)
-                        if (ineq* result[c].getValue()<.5*ineq)
+                    if (result[c] != null &&
+                            ineq * result[c].getValue() < .5 * ineq)
                             falsePool[c]++;
         }
         

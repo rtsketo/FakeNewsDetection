@@ -75,8 +75,8 @@ public class FakeDetection {
             gui.setLearnSum(learnSum);
         }
         
-        if (learnFromFile("good"))
-            if (learnFromFile("fake"))
+        if (learnFromFile("good") &&
+                learnFromFile("fake"))
                 output("\n\n\n\n\n\n\n\n\n\n"
                         + "Learning Completed!");
         
@@ -127,8 +127,7 @@ public class FakeDetection {
                     learnWords(tpGr, veracity, types[t]);
                 }
             }
-            
-            System.gc();
+
         } catch (IOException ex) {
             if (testInternet()) {
                 if (links)
@@ -358,15 +357,15 @@ public class FakeDetection {
             }
         }
         
-        String reason = "\n\nInfluencive Phrases:\n";      
+        StringBuilder reason = new StringBuilder("\n\nInfluencive Phrases:\n");
         for (int c = 0; c < length; c++) 
             if (reasonWord[c] != null) {
-                reason += (c+1)+") " + 
-                        roundPercent(reasonInfl[c]/sum) 
-                        + ": " + reasonWord[c] + "\n";
+                reason.append(c + 1).append(") ")
+                        .append(roundPercent(reasonInfl[c] / sum))
+                        .append(": ").append(reasonWord[c]).append("\n");
             }
-        reason += "\nVeracity: "+roundPercent(veracity/sum);
-        return new Pair(reason,veracity/sum);
+        reason.append("\nVeracity: ").append(roundPercent(veracity / sum));
+        return new Pair(reason.toString(),veracity/sum);
     }
 
     private void iterateReasons(String[] reasonWord, double[] reasonInfl, int c) {
@@ -392,15 +391,12 @@ public class FakeDetection {
     public void setRare(boolean rare) {
        this.rare = rare;
     }
-    
     public void setMin(int val) {
         db.setMinValue(val);
     }
-    
     public void setSpell(boolean spell) {
         this.spell = spell;
     }
-    
     public void setLinks(boolean links) {
         this.links = links;
     }
@@ -439,10 +435,8 @@ public class FakeDetection {
             File input = new File("News/" + file + ".txt");
             File temp = new File("News/tmp" + file + ".txt");    
         
-            BufferedReader reader = Files
-                .newBufferedReader(input.toPath(), utf8);
-            BufferedWriter writer = Files
-                .newBufferedWriter(temp.toPath(), utf8);
+            BufferedReader reader = Files.newBufferedReader(input.toPath(), utf8);
+            BufferedWriter writer = Files.newBufferedWriter(temp.toPath(), utf8);
         
             String line;
             while ((line = reader.readLine()) != null) 

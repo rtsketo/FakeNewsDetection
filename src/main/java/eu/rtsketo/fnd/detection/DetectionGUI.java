@@ -1,33 +1,14 @@
 package eu.rtsketo.fnd.detection;
 
-import java.io.IOException;
-import static java.lang.Integer.min;
-import static java.lang.Math.round;
-import static java.lang.Thread.sleep;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -35,8 +16,20 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Pair;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+
+import static java.lang.Integer.min;
+import static java.lang.Math.round;
+import static java.lang.Thread.sleep;
 
 public class DetectionGUI extends Application implements Initializable {
     private final int numMeth = 11;
@@ -106,12 +99,10 @@ public class DetectionGUI extends Application implements Initializable {
         stage.setScene(scene);
         stage.show();
         
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override public void handle(WindowEvent t) {
-                if(fd != null) fd.close();
-                Platform.exit();
-                System.exit(0);
-            }
+        stage.setOnCloseRequest(t -> {
+            if(fd != null) fd.close();
+            Platform.exit();
+            System.exit(0);
         });
     }
 
@@ -345,8 +336,7 @@ public class DetectionGUI extends Application implements Initializable {
     }
 
     void cls() {
-        Platform.runLater(()->{
-            console.getChildren().clear();
-        });
+        Platform.runLater(()->
+                console.getChildren().clear());
     }
 }
